@@ -1,46 +1,20 @@
 package leetcode
 
-func isAnagram(s string, t string) bool {
-	if len(s) != len(t) {
-		return false
-	}
-
-	sMap := make(map[rune]uint)
-
-	for _, letter := range s {
-		sMap[letter]++
-	}
-
-	for _, letter := range t {
-		if sMap[letter] == 0 {
-			return false
-		}
-		sMap[letter]--
-	}
-
-	return true
-}
-
 func groupAnagrams(strs []string) [][]string {
-	res := [][]string{}
+	var res [][]string
 
+	m := make(map[[26]int][]string)
 	for _, str := range strs {
-		insertNew := true
-
-		for idx, anagram := range res {
-			if isAnagram(anagram[0], str) {
-				res[idx] = append(anagram, str)
-				insertNew = false
-				break
-			}
+		count := [26]int{}
+		for _, char := range str {
+			count[char-'a']++
 		}
 
-		if !insertNew {
-			continue
-		}
+		m[count] = append(m[count], str)
+	}
 
-		res = append(res, []string{str})
-
+	for _, value := range m {
+		res = append(res, value)
 	}
 
 	return res
