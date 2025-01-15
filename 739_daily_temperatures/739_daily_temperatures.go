@@ -1,31 +1,18 @@
 package leetcode
 
-type temp struct {
-	temperature int
-	idx         int
-}
-
 func dailyTemperatures(temperatures []int) []int {
-	var stack []temp
+	var stack []int
 	res := make([]int, len(temperatures))
 
-	for i, v := range temperatures {
-		if len(stack) == 0 {
-			stack = append(stack, temp{v, i})
-			continue
-		}
-
-		for j := len(stack) - 1; j >= 0; j-- {
-			t := stack[j]
-			if t.temperature >= v {
-				continue
-			}
+	for i := len(temperatures) - 1; i >= 0; i-- {
+		for len(stack) > 0 && temperatures[stack[len(stack)-1]] <= temperatures[i] {
 			stack = stack[:len(stack)-1]
-			res[t.idx] = i - t.idx
-
 		}
 
-		stack = append(stack, temp{v, i})
+		if len(stack) > 0 {
+			res[i] = stack[len(stack)-1] - i
+		}
+		stack = append(stack, i)
 
 	}
 
