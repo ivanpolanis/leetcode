@@ -10,7 +10,7 @@ func search(nums []int, target int) int {
 		if nums[i] >= target {
 			t = i
 		} else {
-			b = i
+			b = i + 1
 		}
 	}
 
